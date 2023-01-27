@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AnimatedMenu.MainPage">
+
+    <!--Next step in an application like this is to add in dynamic components that load based on the menu element clicked, There is another app done that does this, should create a mix of the two-->
+    
+    <!--Grid fills and expands to fit screen horzontally and vertically-->
+    <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <!--Displays the no content found component-->
+        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+            <Image Source="empty.png" WidthRequest="40" HeightRequest="40" HorizontalOptions="Center"/>
+            <Label Text="No content found" HorizontalOptions="Center"/>
+        </StackLayout>
+        <!--Object holding the menu itself-->
+        <Grid x:Name="MainMenuView" ColumnDefinitions="Auto, *" BackgroundColor="#221F33" 
+              HeightRequest="500" VerticalOptions="Start" AnchorX="0.08" AnchorY="0.08" Rotation="-90">
+            <!--Displays burger menu icon and "ACTIVITY" string at the top of the menu-->
+            <!--Top left = 0.0, Top right = 1.0, Bottom left = 0.1, Bottom right = 1.1-->
+            <!--Adding Anchor and rotation components determines not only the rotation but position of the components-->
+            <Grid AnchorX="0.08" AnchorY="0.08" Rotation="90">
+                <StackLayout Orientation="Horizontal" Spacing="20" Margin="0, 10, 0, 0">
+                    <ImageButton Source="menu.png" BackgroundColor="Transparent" WidthRequest="20" HeightRequest="20"
+                                 VerticalOptions="Start" HorizontalOptions="Center" Margin="0, 5, 0, 0" Clicked="ShowMenu"/>
+                    <Label x:Name="TitleText" Text="ACTIVITY" TextColor="White" FontSize="22" FontAttributes="Bold"
+                           HorizontalOptions="Center" VerticalOptions="Start"/>
+                </StackLayout>
+            </Grid>
+            <!--Displays the menu items themselves, pulled from datasheet information in the .cs file-->
+            <!--The default state of the program needs to not be displaying the menu items, TranslationX variable set to ensure thy aren't displayed-->
+            <Grid x:Name="MenuItemsView" Grid.Column="1" HorizontalOptions="FillAndExpand" TranslationX="-50" Opacity="0">
+                <StackLayout Margin="0, 70, 0, 0" Spacing="20" BindableLayout.ItemsSource="{Binding MenuItems}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Orientation="Horizontal" Spacing="20">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="MenuTapped" />
+                                </StackLayout.GestureRecognizers>
+                                <Image Source="{Binding Icon}" WidthRequest="20" HeightRequest="20" 
+                                       VerticalOptions="Center" HorizontalOptions="Start"/>
+                                <Label Text="{Binding Title}" TextColor="White" FontSize="22" FontAttributes="Bold"
+                                       HorizontalOptions="Start" VerticalOptions="Start"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </StackLayout>
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>
